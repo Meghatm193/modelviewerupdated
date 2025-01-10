@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Model Viewer Test</title>
+    <title>Model Viewer</title>
     <style>
         body, html {
             margin: 0;
@@ -11,60 +11,60 @@
             height: 100%;
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Prevent scrolling */
         }
         .container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            height: 100vh; /* Full height of viewport */
+            flex-direction: row;
         }
         .model-section {
+            width: 50%;
+            padding: 10px;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             justify-content: space-between;
-            width: 100%;
-            margin-bottom: 40px;
-            padding: 20px;
         }
         .model-section-main {
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-        }
-        .dropdown-container {
-            flex: 1;
-            max-width: 200px;
-            margin-right: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            height: 100%; /* Ensure the model section takes up the full height */
+            overflow: hidden; /* Prevent scrolling */
         }
         .model-container {
-            flex: 2;
-            max-width: 800px;
+            width: 100%;
+            height: 400px; /* Fixed height for the model viewer */
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
+            margin-bottom: 20px;
         }
         model-viewer {
             width: 100%;
-            height: 400px;
+            height: 100%; /* Fixed height for model viewer */
             border-radius: 6px;
             background-color: #fffcfc;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
         .controls {
-            margin-bottom: 20px;
-            padding-left: 10%;
-            padding-top:50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
         }
-        label{
+        label {
             color: #014296;
             font-weight: 600;
+        }
+        .controls div{
+            margin-right: 20px;
         }
         select {
             margin-bottom: 15px;
@@ -72,6 +72,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             width: 100px;
+            margin-top: 5px;
         }
         button {
             background-color: #4CAF50;
@@ -80,35 +81,35 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             width: 100px;
-            margin-left: 25px;
-            margin-top: 20px;
             padding: 10px;
             border-radius: 5px;
             border: 2px solid white;
-        font-size: 16px;
+            font-size: 16px;
+            margin-top: 6px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #3d8640;
         }
         h3 {
             margin-bottom: 20px;
             color: #014296;
-            text-align: center;
             font-size: 24px;
             font-weight: 700;
         }
-        /* Responsive styles for tablet devices */
+    
+        /* Responsive styles for smaller devices */
         @media (max-width: 768px) {
-            .model-section {
+            .container {
                 flex-direction: column;
-                align-items: center;
+                height: 100vh; /* Full height of viewport */
             }
-            .dropdown-container {
-                margin-right: 0;
-                margin-bottom: 20px;
+            .model-section {
+                width: 100%;
+                padding: 10px;
             }
         }
     </style>
+    
 </head>
 <body>
 
@@ -118,21 +119,21 @@
     <div class="container">
 
         <!-- First Model Section -->
-        <div class="model-section-main">
-        <h3>Model 1 </h3>
-        
         <div class="model-section">
-            
-            <div class="dropdown-container">
-               
+            <div class="model-section-main">
+                <h3>Model 1</h3>
+                <div class="model-container">
+                    <model-viewer id="modelViewer1" alt="Model 1" src="shared-assets/models/1.5 -2.glb" ar environment-image="shared-assets/environments/sample.hdr" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>
+                </div>
                 <div class="controls">
-                    <label for="powerDropdown1"  style="margin-right: 4px;">Power: </label>
+                    <div>
+                    <label for="powerDropdown1">Power: </label> <br>
                     <select id="powerDropdown1">
                         <option value="-10">-10</option>
                         <option value="-8">-8</option>
                         <option value="-6">-6</option>
                         <option value="-4">-4</option>
-                        <option value="-2">-2</option>
+                        <option value="-2" selected>-2</option> <!-- Default value is -2 -->
                         <option value="0">0</option>
                         <option value="+2">+2</option>
                         <option value="+4">+4</option>
@@ -140,42 +141,38 @@
                         <option value="+8">+8</option>
                         <option value="+10">+10</option>
                     </select>
-                    <br/>
-                    <label for="power2Dropdown1" style="margin-right: 10px;">Index: </label>
+                </div>
+                <div>
+                    <label for="power2Dropdown1">Index: </label><br>
                     <select id="power2Dropdown1">
-                        <option value="1.5">1.50</option>
+                        <option value="1.5" selected>1.50</option> <!-- Default value is 1.5 -->
                         <option value="1.6">1.60</option>
                         <option value="1.67">1.67</option>
                         <option value="1.74">1.74</option>
                     </select>
-                    <br>
-                    <button style="align-items: center;" id="applyButton1">Apply </button>
+                </div>
+                  
+                    <button id="applyButton1">Apply</button>
                 </div>
             </div>
-
-            <div class="model-container">
-                <model-viewer id="modelViewer1" alt="Model 1" src="" ar environment-image="shared-assets/environments/sample.hdr" poster="shared-assets/models/glass2.png" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>
-            </div>
-
         </div>
-    </div>
-<hr>
+
         <!-- Second Model Section -->
-          <div class="model-section-main">
-        <h3>Model 2 </h3>
-        
         <div class="model-section">
-           
-            <div class="dropdown-container">
-              
+            <div class="model-section-main">
+                <h3>Model 2</h3>
+                <div class="model-container">
+                    <model-viewer id="modelViewer2" alt="Model 2" src="shared-assets/models/1.5 -2.glb" ar environment-image="shared-assets/environments/sample.hdr" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>
+                </div>
                 <div class="controls">
-                    <label for="powerDropdown2" style="margin-right: 4px;">Power: </label>
+                    <div>
+                    <label for="powerDropdown2">Power: </label><br>
                     <select id="powerDropdown2">
                         <option value="-10">-10</option>
                         <option value="-8">-8</option>
                         <option value="-6">-6</option>
                         <option value="-4">-4</option>
-                        <option value="-2">-2</option>
+                        <option value="-2" selected>-2</option> <!-- Default value is -2 -->
                         <option value="0">0</option>
                         <option value="+2">+2</option>
                         <option value="+4">+4</option>
@@ -183,24 +180,21 @@
                         <option value="+8">+8</option>
                         <option value="+10">+10</option>
                     </select>
-<br>
-                    <label for="power2Dropdown2"  style="margin-right: 10px;">Index: </label>
+                </div>
+                  <div>
+                    <label for="power2Dropdown2">Index: </label><br>
                     <select id="power2Dropdown2">
-                        <option value="1.5">1.50</option>
+                        <option value="1.5" selected>1.50</option> <!-- Default value is 1.5 -->
                         <option value="1.6">1.60</option>
                         <option value="1.67">1.67</option>
                         <option value="1.74">1.74</option>
                     </select>
-<br>
+                </div>
+                
                     <button id="applyButton2">Apply</button>
                 </div>
             </div>
-
-            <div class="model-container">
-                <model-viewer id="modelViewer2" alt="Model 2" src="" ar environment-image="shared-assets/environments/sample.hdr" poster="shared-assets/models/glass2.png" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>
-            </div>
         </div>
-    </div>
 
     </div>
 

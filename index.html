@@ -217,6 +217,13 @@
 
             document.getElementById('modelViewer2').src = glbFileName;
         });
+
+        document.addEventListener('click', function (event) {
+  if (event.target.tagName === 'A' && event.target.href.startsWith('intent://')) {
+    event.preventDefault(); // Stop the link from opening
+    console.log('Intent URL prevented from opening:', event.target.href);
+  }
+});
     </script>
 
 </body>
